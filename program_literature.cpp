@@ -23,12 +23,14 @@ using namespace std;
 // ignore #includes in quotes
 // make string comparisons case insensitive
 // add command line options
+// add in option to include list of words to not overwrite (function names, etc.)
+
 
 // number of words per line to write to output file
 const int wordsPerLine = 15;
 
 // list of punctuation to ignore in the text file
-const string punctuationList = "!.,*@#$&()-^+~`/|\\?><;:\'\"[]{}—";
+// const string punctuationList = "!.,*@#$&()-^+~`/|\\?><;:\'\"[]{}—";
 
 // list of punctuation that can be removed
 const string delPunctList = "!.,*@#$&()^+~/|\\?<>;:[]{}—";
@@ -137,10 +139,13 @@ vector<string> parseTextFile(ifstream & file);
 // takes a file and parses it into a vector of strings, keeps quotes in one string
 vector<string> parseProgramFile(ifstream & file);
 
-// cleans word of punctuation
+// cleans word of punctuation, deletes punctuation in the list delPunctList
+// and replaces punctuation with an underscore in the list replacePunctList
+// adds extra underscores to the end if word already exists
 string cleanWord(string & word, const vector<string> & currWords);
 
-// cleans sentence of extraneous underscores
+// cleans sentence of extraneous underscores (max one underscore between words)
+// adds extra underscores to the end if sentence already exists
 string cleanSentence(string & sentence, const vector<string> & currSentences);
 
 // checks it word is a duplicate of something in currWords
@@ -216,7 +221,7 @@ int main(int argc, char *argv[]) {
 	cout << "created new file\n";
 	writeFile.close();
 
-	remove(tempFileName);
+	// remove(tempFileName);
 	cout << "removed intermediary file\ndone.\n";
 }
 
@@ -364,6 +369,7 @@ string cleanWord(string & word, const vector<string> & currWords) {
 
 string cleanSentence(string & sentence, const vector<string> & currSentences) {
 	vector<int> del;
+	// looking for strings of underscores
 	for (unsigned int i = 0; i < sentence.size(); ++i) {
 		if (sentence[i] == '_') {
 			if (i + 1 != sentence.size() && sentence[i + 1] == '_') {
@@ -372,10 +378,12 @@ string cleanSentence(string & sentence, const vector<string> & currSentences) {
 		}
 	}
 
+	// deleting underscores
 	for (unsigned int i = 0; i < del.size(); ++i) {
 		sentence.erase(del[i] - i, 1);
 	}
 
+	// making sure sentence is unique
 	while(duplicateWord(sentence, currSentences)) {
 		sentence += "_";
 	}
@@ -441,7 +449,7 @@ vector<string> preprocessFile(ifstream & inFile, ofstream & outFile) {
 			if (j == 0) {
 				lines[i].erase(temp, temp2 - temp + 2);
 			} else {
-				lines[i + j].erase(0, temp2 + 3);
+				lines[i + j].erase(0, temp2 + 2);
 			}
 		}
 
