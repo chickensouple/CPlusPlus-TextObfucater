@@ -18,11 +18,27 @@ last updated: 12/11/2013
 using namespace std;
 
 // TODO:
-// allow option to delete punctuation rather than replace with underscore
+// get rid of nested block comments
+// get #includes that are not a line long
+// ignore #includes in quotes
+// make string comparisons case insensitive
 
+// number of words per line to write to output file
 const int wordsPerLine = 15;
+
+// list of punctuation to ignore in the text file
 const string punctuationList = "!.,*@#$&()-^+~`/|\\?><;:\'\"[]{}—";
+
+// list of punctuation that can be removed
+const string delPunctList = "!.,*@#$&()^+~/|\\?<>;:[]{}—";
+
+// list of punctuation that can be replaced by underscore
+const string replacePunctList = "-~'\'\"";
+
+// name of the intermediary file
 const char* tempFileName = "temp.temp";
+
+// array of c++ key words
 const string keyWords[] = {"alignas",
 "alignof",
 "and",
@@ -108,6 +124,7 @@ const string keyWords[] = {"alignas",
 "xor",
 "xor_eq"};
 
+// vector of c++ keywords
 const vector<string> keyWordsList (keyWords, keyWords + sizeof(keyWords) / sizeof(string));
 
 // takes a program file and removes the #include's and comments, returns a list of the #includes
@@ -120,7 +137,10 @@ vector<string> parseTextFile(ifstream & file);
 vector<string> parseProgramFile(ifstream & file);
 
 // cleans word of punctuation
-void cleanWord(string & word, const vector<string> & currWords);
+string cleanWord(string & word, const vector<string> & currWords);
+
+// cleans sentence of extraneous underscores
+string cleanSentence(string & sentence, const vector<string> & currSentences);
 
 // checks it word is a duplicate of something in currWords
 bool duplicateWord(string & word, const vector<string> & currWords);
@@ -195,7 +215,7 @@ int main(int argc, char *argv[]) {
 	cout << "created new file\n";
 	writeFile.close();
 
-	remove(tempFileName);
+	// remove(tempFileName);
 	cout << "removed intermediary file\ndone.\n";
 }
 
@@ -248,6 +268,7 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 					builder += textWords[ratio2 * i + j];
 				}
 			}
+			cleanSentence(builder, temp);
 			temp.push_back(builder);
 			writeFile << builder << " " << programWords[i] << endl;
 		}
@@ -262,6 +283,7 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 				builder += textWords[i];
 			}
 		}
+		cleanSentence(builder, temp);
 		temp.push_back(builder);
 		writeFile << builder << " " << programWords[programWords.size() - 1] << "\n\n\n";
 
@@ -305,16 +327,27 @@ vector<string> parseTextFile(ifstream & file) {
 	return ret;
 }
 
-void cleanWord(string & word, const vector<string> & currWords) {
+string cleanWord(string & word, const vector<string> & currWords) {
+	vector<int> del;
 	for (int i = 0; i < word.size(); ++i) {
-		for (int j = 0; j < punctuationList.size(); ++j) {
-			if (punctuationList[j] == word[i]) {
+		for (int j = 0; j < delPunctList.size(); ++j) {
+			if (delPunctList[j] == word[i]) {
+				del.push_back(i);
 				// word.erase(i, 1);
+				// word[i] = '_';
+			}
+		}
+		for (int j = 0; j < replacePunctList.size(); ++j) {
+			if (replacePunctList[j] == word[i]) {
 				word[i] = '_';
-				break;
 			}
 		}
 	}
+
+	for (int i = 0; i < del.size(); ++i) {
+		word.erase(del[i] - i, 1);
+	}
+
 	for (int i = 0; i < keyWordsList.size(); ++i) {
 		if (word == keyWordsList[i]) {
 			word += "_";
@@ -325,7 +358,28 @@ void cleanWord(string & word, const vector<string> & currWords) {
 	while(duplicateWord(word, currWords)) {
 		word += "_";
 	}
+	return word;
+}
 
+string cleanSentence(string & sentence, const vector<string> & currSentences) {
+	vector<int> del;
+	for (int i = 0; i < sentence.size(); ++i) {
+		if (sentence[i] == '_') {
+			if (i + 1 != sentence.size() && sentence[i + 1] == '_') {
+				del.push_back(i + 1);
+			}
+		}
+	}
+
+	for (int i = 0; i < del.size(); ++i) {
+		sentence.erase(del[i] - i, 1);
+	}
+
+	while(duplicateWord(sentence, currSentences)) {
+		sentence += "_";
+	}
+
+	return sentence;
 }
 
 bool duplicateWord(string & word, const vector<string> & currWords) {
@@ -358,16 +412,44 @@ vector<string> preprocessFile(ifstream & inFile, ofstream & outFile) {
 
 	size_t temp;
 	for (int i = 0; i < lines.size(); ++i) {
+		// finding line comments
 		temp = lines[i].find("//");
 		while (temp != string::npos) {
 			lines[i].erase(temp, lines[i].size());
 			temp = lines[i].find("//");
 		}
 
+		// finding block comments
+		temp = lines[i].find("/*"); // won't find nested block comments
+		if (temp != string::npos) {
+			size_t temp2;
+			temp2 = lines[i].find("*/");
+
+			// need j so that we save the initial position of i
+			int j = 0;
+			while (temp2 == string::npos) {
+				if (j != 0) {
+					lines[i + j].erase(0, lines[i + j].size());
+				} else {
+					lines[i].erase(temp, lines[i].size());
+				}
+				++j;
+				temp2 = lines[i + j].find("*/");
+			}
+
+			if (j == 0) {
+				lines[i].erase(temp, temp2 - temp + 2);
+			} else {
+				lines[i + j].erase(0, temp2 + 3);
+			}
+		}
+
+		// finding #includes
 		temp = lines[i].find("#include");
 		if (temp != string::npos) {
 			includes.push_back(lines[i]);
 		} else {
+			// writing lines to out file if it is not empty
 			if (lines[i] != "") {
 				outFile << lines[i] << endl;
 			}
