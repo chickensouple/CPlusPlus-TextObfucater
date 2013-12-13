@@ -9,7 +9,7 @@ make sure all your #include's are on separate lines
 
 syntax from command line is program_literature <name of .cpp file> <name of text file> <name of output file>
 author: clark zhang
-last updated: 12/11/2013
+last updated: 12/12/2013
 */
 #include <iostream>
 #include <fstream>
@@ -18,8 +18,8 @@ last updated: 12/11/2013
 using namespace std;
 
 // TODO:
-// get rid of nested block comments
-// get #includes that are not a line long
+// nested block comments will cause errors
+// get #includes that are not on its own line
 // ignore #includes in quotes
 // make string comparisons case insensitive
 
@@ -176,7 +176,7 @@ int main(int argc, char *argv[]) {
 	
 
 	// writing the includes to top of file
-	for (int i = 0; i < includes.size(); ++i) {
+	for (unsigned int i = 0; i < includes.size(); ++i) {
 		writeFile << includes[i] << endl;
 	}
 	writeFile << "\n\n";
@@ -215,7 +215,7 @@ int main(int argc, char *argv[]) {
 	cout << "created new file\n";
 	writeFile.close();
 
-	// remove(tempFileName);
+	remove(tempFileName);
 	cout << "removed intermediary file\ndone.\n";
 }
 
@@ -226,7 +226,7 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 	// if there are more words in program than in text
 	if (ratio1 >= ratio2) {
 		// writes the first textWords.size() - 1 #define's to file along (because the last one may have an irregular number of associated program words)
-		for (int i = 0; i < textWords.size() - 1; ++i) {
+		for (unsigned int i = 0; i < textWords.size() - 1; ++i) {
 			writeFile << "#define " << textWords[i] << " ";
 			for (int j = 0; j < ratio1; ++j) {
 				writeFile << programWords[ratio1 * i + j] << " ";
@@ -236,13 +236,13 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 
 		// writing the last #define
 		writeFile << "#define " << textWords[textWords.size() - 1] << " ";
-		for (int i = (textWords.size() - 1) * ratio1; i < programWords.size(); ++i) {
+		for (unsigned int i = (textWords.size() - 1) * ratio1; i < programWords.size(); ++i) {
 			writeFile << programWords[i] << " ";
 		}
 		writeFile << "\n\n\n";
 
 		// writing the textwords
-		for (int i = 0; i < textWords.size(); ++i) {
+		for (unsigned int i = 0; i < textWords.size(); ++i) {
 			writeFile << textWords[i] << " ";
 			if (i % wordsPerLine == 0 && i != 0) {
 				writeFile << endl;
@@ -258,7 +258,7 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 		string builder;
 
 		// writing the first programWords.size() - 1 #define's
-		for (int i = 0; i < programWords.size() - 1; ++i) {
+		for (unsigned int i = 0; i < programWords.size() - 1; ++i) {
 			writeFile << "#define ";
 			builder = "";
 			for (int j = 0; j < ratio2; ++j) {
@@ -276,7 +276,7 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 		// writing the last #define
 		writeFile << "#define ";
 		builder = "";
-		for (int i = (programWords.size() - 1) * ratio2; i < textWords.size(); ++i) {
+		for (unsigned int i = (programWords.size() - 1) * ratio2; i < textWords.size(); ++i) {
 			if (i != textWords.size() - 1) {
 				builder += textWords[i] + "_";
 			} else {
@@ -288,7 +288,7 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 		writeFile << builder << " " << programWords[programWords.size() - 1] << "\n\n\n";
 
 		// writing out whatever is in temp
-		for (int i = 0; i < temp.size(); ++i) {
+		for (unsigned int i = 0; i < temp.size(); ++i) {
 			writeFile << temp[i] << " ";
 			if (i % (wordsPerLine / ratio2) == 0 && i != 0) {
 				writeFile << endl;
@@ -329,26 +329,26 @@ vector<string> parseTextFile(ifstream & file) {
 
 string cleanWord(string & word, const vector<string> & currWords) {
 	vector<int> del;
-	for (int i = 0; i < word.size(); ++i) {
-		for (int j = 0; j < delPunctList.size(); ++j) {
+	for (unsigned int i = 0; i < word.size(); ++i) {
+		for (unsigned int j = 0; j < delPunctList.size(); ++j) {
 			if (delPunctList[j] == word[i]) {
 				del.push_back(i);
 				// word.erase(i, 1);
 				// word[i] = '_';
 			}
 		}
-		for (int j = 0; j < replacePunctList.size(); ++j) {
+		for (unsigned int j = 0; j < replacePunctList.size(); ++j) {
 			if (replacePunctList[j] == word[i]) {
 				word[i] = '_';
 			}
 		}
 	}
 
-	for (int i = 0; i < del.size(); ++i) {
+	for (unsigned int i = 0; i < del.size(); ++i) {
 		word.erase(del[i] - i, 1);
 	}
 
-	for (int i = 0; i < keyWordsList.size(); ++i) {
+	for (unsigned int i = 0; i < keyWordsList.size(); ++i) {
 		if (word == keyWordsList[i]) {
 			word += "_";
 			break;
@@ -363,7 +363,7 @@ string cleanWord(string & word, const vector<string> & currWords) {
 
 string cleanSentence(string & sentence, const vector<string> & currSentences) {
 	vector<int> del;
-	for (int i = 0; i < sentence.size(); ++i) {
+	for (unsigned int i = 0; i < sentence.size(); ++i) {
 		if (sentence[i] == '_') {
 			if (i + 1 != sentence.size() && sentence[i + 1] == '_') {
 				del.push_back(i + 1);
@@ -371,7 +371,7 @@ string cleanSentence(string & sentence, const vector<string> & currSentences) {
 		}
 	}
 
-	for (int i = 0; i < del.size(); ++i) {
+	for (unsigned int i = 0; i < del.size(); ++i) {
 		sentence.erase(del[i] - i, 1);
 	}
 
@@ -383,7 +383,7 @@ string cleanSentence(string & sentence, const vector<string> & currSentences) {
 }
 
 bool duplicateWord(string & word, const vector<string> & currWords) {
-	for (int i = 0; i < currWords.size(); ++i) {
+	for (unsigned int i = 0; i < currWords.size(); ++i) {
 		if (word == currWords[i]) {
 			return true;
 		}
@@ -393,7 +393,7 @@ bool duplicateWord(string & word, const vector<string> & currWords) {
 
 bool parenthesesPaired(const string & word) {
 	int count = 0;
-	for (int i = 0; i < word.size(); ++i) {
+	for (unsigned int i = 0; i < word.size(); ++i) {
 		if (word[i] == '\"') {
 			++count;
 		}
@@ -411,7 +411,7 @@ vector<string> preprocessFile(ifstream & inFile, ofstream & outFile) {
 	}
 
 	size_t temp;
-	for (int i = 0; i < lines.size(); ++i) {
+	for (unsigned int i = 0; i < lines.size(); ++i) {
 		// finding line comments
 		temp = lines[i].find("//");
 		while (temp != string::npos) {
