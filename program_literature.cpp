@@ -22,6 +22,7 @@ using namespace std;
 // get #includes that are not on its own line
 // ignore #includes in quotes
 // make string comparisons case insensitive
+// add command line options
 
 // number of words per line to write to output file
 const int wordsPerLine = 15;
@@ -145,8 +146,8 @@ string cleanSentence(string & sentence, const vector<string> & currSentences);
 // checks it word is a duplicate of something in currWords
 bool duplicateWord(string & word, const vector<string> & currWords);
 
-// checks if the word has an even number of parantheses
-bool parenthesesPaired(const string & word);
+// checks if the word has an even number of quotes
+bool quotesPaired(const string & word);
 
 // creates the output file
 void createFile(vector<string> & programWords, vector<string> & textWords, ofstream & writeFile);
@@ -308,7 +309,7 @@ vector<string> parseProgramFile(ifstream & file) {
 			do {
 				file >> builder;
 				temp += " " + builder;
-			} while (!parenthesesPaired(temp));
+			} while (!quotesPaired(temp));
 		}
 		ret.push_back(temp);
 	}
@@ -391,7 +392,7 @@ bool duplicateWord(string & word, const vector<string> & currWords) {
 	return false;
 }
 
-bool parenthesesPaired(const string & word) {
+bool quotesPaired(const string & word) {
 	int count = 0;
 	for (unsigned int i = 0; i < word.size(); ++i) {
 		if (word[i] == '\"') {
