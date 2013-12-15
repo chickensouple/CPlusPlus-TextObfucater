@@ -23,11 +23,15 @@ using namespace std;
 // ignore #includes in quotes
 // make string comparisons case insensitive
 // add command line options
-// add in option to include list of words to not overwrite (function names, etc.)
+// search through program file to find function, variable, class, enum, etc. names
+// overhaul structure of program for easier readability b/c it currently looks like crap
+// generalize for other programming languages
+
+
 
 
 // number of words per line to write to output file
-const int wordsPerLine = 15;
+const int wordsPerLine = 10;
 
 // list of punctuation to ignore in the text file
 // const string punctuationList = "!.,*@#$&()-^+~`/|\\?><;:\'\"[]{}—";
@@ -148,7 +152,7 @@ string cleanWord(string & word, const vector<string> & currWords);
 // adds extra underscores to the end if sentence already exists
 string cleanSentence(string & sentence, const vector<string> & currSentences);
 
-// checks it word is a duplicate of something in currWords
+// checks if word is a duplicate of something in currWords
 bool duplicateWord(string & word, const vector<string> & currWords);
 
 // checks if the word has an even number of quotes
@@ -300,7 +304,6 @@ void createFile(vector<string> & programWords, vector<string> & textWords, ofstr
 				writeFile << endl;
 			}
 		}
-
 	}
 }
 
@@ -372,8 +375,11 @@ string cleanSentence(string & sentence, const vector<string> & currSentences) {
 	// looking for strings of underscores
 	for (unsigned int i = 0; i < sentence.size(); ++i) {
 		if (sentence[i] == '_') {
+			// if i + 1 is out of bounds, short circuits the statement
 			if (i + 1 != sentence.size() && sentence[i + 1] == '_') {
 				del.push_back(i + 1);
+			} else if (i == sentence.size() - 1) {
+				del.push_back(i);
 			}
 		}
 	}
