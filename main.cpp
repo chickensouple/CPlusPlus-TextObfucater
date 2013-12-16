@@ -20,7 +20,7 @@ last updated: 12/15/2013
 // ignore #includes in quotes
 // make string comparisons case insensitive
 // add command line options
-// search through program file to find function, variable, class, enum, etc. names
+// search through program file to find function, variable, class, enum, struct, etc. names
 // generalize for other programming languages
 
 

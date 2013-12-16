@@ -403,5 +403,5 @@ void ProgramFile::parse() {
 	parsedFile.pop_back();
 	file.close();
 	isParsed = true;
-	// remove(tempFile);
+	remove(tempFile);
 }

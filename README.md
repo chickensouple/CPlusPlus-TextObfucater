@@ -7,7 +7,7 @@ instantly turns your c++ code into an actual work of literature
 
 
 Turns boring c++ code such as:
-  // finds n'th row of pascal
+	// finds n'th row of pascal
 	#include <iostream> 
 	using namespace std;
 
@@ -60,7 +60,7 @@ Turns boring c++ code such as:
 		}
 	}
 into beautiful
-  #include <iostream> 
+ 	#include <iostream> 
 
 
 	#define On_My using
