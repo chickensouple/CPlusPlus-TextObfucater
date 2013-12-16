@@ -137,7 +137,7 @@ const vector<string> keyWordsList (keyWords, keyWords + sizeof(keyWords) / sizeo
 // takes a program file and removes the #include's and comments, returns a list of the #includes
 vector<string> preprocessFile(ifstream & inFile, ofstream & outFile);
 
-// takes a file and parses it into a vector of strings as well as cleaning each word
+// takes a file and parses it into a vector of strings as well as cleaning each word of punctuation
 vector<string> parseTextFile(ifstream & file);
 
 // takes a file and parses it into a vector of strings, keeps quotes in one string
