@@ -23,15 +23,6 @@ protected:
 	// input filestream containing file
 	std::ifstream fileStream;
 
-	// vector of c++ keywords
-	std::vector<std::string> keyWords;
-
-	// string of punctuation to be deleted
-	const std::string delPunctList;
-
-	// string of punctuation to be replaced by underscores
-	const std::string replacePunctList;
-
 	// vector of strings holding each parsed file word
 	std::vector<std::string> parsedFile;
 
@@ -47,7 +38,6 @@ protected:
 
 	// EFFECTS: checks if word contains an even number of quotes
 	static bool quotesPaired(const std::string & word);
-
 public:
 	GeneralFile(const char* fileName);
 
@@ -73,6 +63,15 @@ public:
 class TextFile : public GeneralFile {
 friend class GeneralFile;
 private:
+	// string of punctuation to be deleted
+	const std::string delPunctList;
+
+	// string of punctuation to be replaced by underscores
+	const std::string replacePunctList;
+
+		// vector of c++ keywords
+	std::vector<std::string> keyWords;
+
 	std::string cleanWord(const std::string & word, const std::vector<std::string> & currWords);
 	bool isWord(const std::string & word);
 
@@ -99,8 +98,11 @@ private:
 	// vector of strings to store includes
 	std::vector<std::string> includes;
 
+	// vector of strings to store function names, class names, struct names, enum names, variable names
+	std::vector<std::string> programWords;
+
 	// REQUIRES: fileStream must be open
-	// EFFECTS: creates a temporary file that cleans the original program file. i.e. erases comments gets rid of #include;s
+	// EFFECTS: creates a temporary file that cleans the original program file. i.e. erases comments gets rid of #include's
 	// returns a list of #include's
 	// MODIFIES: internal structure of class
 	// note: is called by parse()
@@ -114,8 +116,5 @@ public:
 	// MODIFIES: internal structure of class
 	virtual void parse();
 };
-
-
-
 
 #endif
