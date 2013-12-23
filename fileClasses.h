@@ -35,9 +35,6 @@ protected:
 
 	// EFFECTS: checks if word has a duplicate in currWords
 	static bool duplicateWord(const std::string & word, const std::vector<std::string> & currWords);
-
-	// EFFECTS: checks if word contains an even number of quotes
-	static bool quotesPaired(const std::string & word);
 public:
 	GeneralFile(const char* fileName);
 
@@ -69,12 +66,14 @@ private:
 	// string of punctuation to be replaced by underscores
 	const std::string replacePunctList;
 
-		// vector of c++ keywords
+	// vector of strings for c++ keywords
 	std::vector<std::string> keyWords;
 
-	std::string cleanWord(const std::string & word, const std::vector<std::string> & currWords);
-	bool isWord(const std::string & word);
-
+	// EFFECTS: cleans word of punctuation and makes sure its unique
+	std::string cleanWord(std::string & word, std::vector<std::string> & currWords) const;
+	
+	// checks if word is not just a string of underscores
+	bool isWord(std::string & word) const;
 public: 
 	TextFile(const char * fileName);
 
@@ -89,9 +88,6 @@ public:
 class ProgramFile : public GeneralFile {
 friend class GeneralFile;
 private:
-	// intermediary filestream to create a processed program file without comments and #include's
-	std::ofstream tempFile;
-
 	// file name for temp file
 	const char* tempFileName;
 
@@ -100,6 +96,9 @@ private:
 
 	// vector of strings to store function names, class names, struct names, enum names, variable names
 	std::vector<std::string> programWords;
+
+	// EFFECTS: checks if word contains an even number of quotes
+	static bool quotesPaired(const std::string & word);
 
 	// REQUIRES: fileStream must be open
 	// EFFECTS: creates a temporary file that cleans the original program file. i.e. erases comments gets rid of #include's

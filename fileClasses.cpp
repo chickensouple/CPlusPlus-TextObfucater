@@ -41,20 +41,6 @@ bool GeneralFile::duplicateWord(const std::string & word, const std::vector<std:
 	return false;
 }
 
-bool GeneralFile::quotesPaired(const std::string & word) {
-	int count = 0;
-	int count2 = 0;
-	for (unsigned int i = 0; i < word.size(); ++i) {
-		if (word[i] == '\"') {
-			++count;
-		} else if (word[i] == '\'') {
-			++count2;
-		}
-
-	}
-	return (count % 2 == 0 && count % 2 == 0);
-}
-
 void GeneralFile::closeFile() {
 	if (isOpen()) {
 		fileStream.close();
@@ -157,7 +143,7 @@ void GeneralFile::createStoryFile(const ProgramFile & program, const TextFile & 
 	}
 }
 
-std::string TextFile::cleanWord(const std::string & word, const std::vector<std::string> & currWords) {
+std::string TextFile::cleanWord(std::string & word, std::vector<std::string> & currWords) const {
 	std::vector<int> del;
 	std::string ret(word);
 	for (unsigned int i = 0; i < ret.size(); ++i) {
@@ -190,7 +176,7 @@ std::string TextFile::cleanWord(const std::string & word, const std::vector<std:
 	return ret;
 }
 
-bool TextFile::isWord(const std::string & word) {
+bool TextFile::isWord(std::string & word) const {
 	bool found;
 	for (unsigned int i = 0; i < replacePunctList.size(); ++i) {
 		found = false; 
@@ -311,8 +297,23 @@ void TextFile::parse() {
 	closeFile();
 }
 
+bool ProgramFile::quotesPaired(const std::string & word) {
+	int count = 0;
+	int count2 = 0;
+	for (unsigned int i = 0; i < word.size(); ++i) {
+		if (word[i] == '\"') {
+			++count;
+		} else if (word[i] == '\'') {
+			++count2;
+		}
+
+	}
+	return (count % 2 == 0 && count % 2 == 0);
+}
+
 void ProgramFile::preprocess() {
-	// opening up temporary file for write
+	// intermediary filestream to create a processed program file without comments and #include's
+	std::ofstream tempFile;
 	tempFile.open(tempFileName);
 
 	// vector of strings to store lines of code
@@ -392,11 +393,11 @@ void ProgramFile::parse() {
 		file >> temp;
 
 		// if begining of qoute, continue to attach words until end of quotes are found.
-		if (temp[0] == '\"') {
-			do {
+		if (temp.find("\"") != std::string::npos) {
+			while (!quotesPaired(temp)) {
 				file >> builder;
 				temp += " " + builder;
-			} while (!GeneralFile::quotesPaired(temp));
+			}
 		}
 		parsedFile.push_back(temp);
 	}
@@ -404,4 +405,19 @@ void ProgramFile::parse() {
 	file.close();
 	isParsed = true;
 	// remove(tempFile);
+}
+
+// new version of preprocess not done yet
+void preprocess_new() { 
+	// intermediary filestream to create a processed program file without comments and #include's
+	std::ofstream tempFile;
+	tempFile.open(tempFileName);
+
+	// vector of strings to store lines of code
+	std::vector<std::string> lines;
+
+	// string for temporary storage and manipulation
+	std::string tempLine;
+
+	
 }
