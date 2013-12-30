@@ -378,7 +378,26 @@ void ProgramFile::preprocess() {
 }
 
 
-ProgramFile::ProgramFile(const char* fileName) : GeneralFile(fileName), tempFileName("temp.temp") { }
+ProgramFile::ProgramFile(const char* fileName) : GeneralFile(fileName), tempFileName("temp.temp"), whiteSpaces("\t\n\r\f") { 
+	variableNames.push_back("int");
+	variableNames.push_back("double");
+	variableNames.push_back("float");
+	variableNames.push_back("char");
+	variableNames.push_back("bool");
+	variableNames.push_back("int*");
+	variableNames.push_back("double*");
+	variableNames.push_back("float*");
+	variableNames.push_back("char*");
+	variableNames.push_back("bool*");
+	variableNames.push_back("long");
+	variableNames.push_back("unsigned");
+	variableNames.push_back("signed");
+	variableNames.push_back("struct");
+	variableNames.push_back("class");
+	variableNames.push_back("enum");
+	variableNames.push_back("typedef");
+
+}
 
 void ProgramFile::parse() {
 	preprocess();
@@ -408,16 +427,81 @@ void ProgramFile::parse() {
 }
 
 // new version of preprocess not done yet
-void preprocess_new() { 
+void ProgramFile::preprocess_new() { 
 	// intermediary filestream to create a processed program file without comments and #include's
 	std::ofstream tempFile;
 	tempFile.open(tempFileName);
 
-	// vector of strings to store lines of code
-	std::vector<std::string> lines;
-
 	// string for temporary storage and manipulation
-	std::string tempLine;
+	std::string builder = "";
 
-	
+	// character for reading in file
+	char temp;
+
+	// characters for use during comment deletion
+	char comment1 = ' ', comment2= ' ';
+
+	// word size of currently built word
+	int wordSize = 0;
+
+	while (!fileStream.eof()) {
+		temp = fileStream.get();
+
+		builder += temp;
+		wordSize = builder.size();
+
+		// checking for line comment
+		if (wordSize > 1 && builder[wordSize - 1] == '/' && builder[wordSize - 2] == '/') {
+			// removing comment characters from builder
+			builder = builder.substr(0, wordSize - 2);
+
+			// advancing stream until we hit an end line
+			while (!fileStream.eof() && fileStream.get() != '\n');
+			temp = '\n';
+			builder += temp;
+			wordSize = builder.size();
+		}
+
+		// checking for block comment
+		if (wordSize > 1 && builder[wordSize - 1] == '*' && builder[wordSize - 2] == '/') {
+			// removing comment characters from builder
+			builder = builder.substr(0, wordSize - 2);
+
+			// advancing stream until we find "*/"
+			do {
+				comment2 = comment1;
+				comment1 = fileStream.get();
+			} while (!(comment1 == '*' && comment2 == '/') || !fileStream.eof());
+			
+			temp = fileStream.get();
+			builder += temp;
+			wordSize = builder.size();
+		}
+
+		for (unsigned int i = 0; i < whiteSpaces.size(); ++i) {
+
+			// checking for white spaces
+			if (temp == whiteSpaces[i]) {
+				builder = builder.substr(0, wordSize - 1);
+
+				// if builder is a variable name
+				for (unsigned int j = 0; j < variableNames.size(); ++j) {
+					if (builder == variableNames[j]) {
+						// variable logic
+
+						break;
+					}
+				}
+				
+				if (builder == "#include") {
+					// include logic
+				} else {
+					// if not include add to output file
+					tempFile << builder + temp;
+				}
+				builder = "";
+				break;
+			}
+		}
+	}
 }

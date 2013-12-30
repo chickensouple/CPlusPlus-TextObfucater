@@ -16,7 +16,6 @@ class NotParsed {};
 class InvalidArguments {};
 class FileNotOpen {};
 
-
 // base class for files
 class GeneralFile {
 protected:
@@ -87,6 +86,10 @@ public:
 // class for c++ file
 class ProgramFile : public GeneralFile {
 friend class GeneralFile;
+
+// enum for stages of preprocessing program file
+enum processStage {WHITESPACE, WORD, LINECOMMENT, BLOCKCOMMENT, INCLUDE, NAME};
+
 private:
 	// file name for temp file
 	const char* tempFileName;
@@ -97,6 +100,12 @@ private:
 	// vector of strings to store function names, class names, struct names, enum names, variable names
 	std::vector<std::string> programWords;
 
+	// string of white spaces
+	std::string whiteSpaces;
+
+	// vector of variable names;
+	std::vector<std::string> variableNames;
+
 	// EFFECTS: checks if word contains an even number of quotes
 	static bool quotesPaired(const std::string & word);
 
@@ -106,6 +115,10 @@ private:
 	// MODIFIES: internal structure of class
 	// note: is called by parse()
 	void preprocess();
+
+
+	// temporary
+	void preprocess_new();
 public:
 	ProgramFile(const char* fileName);
 
