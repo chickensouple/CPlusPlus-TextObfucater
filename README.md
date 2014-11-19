@@ -1,5 +1,4 @@
-This python script will take a c++ file and a text file and 
-#define all the tokens in the c++ file as a phrase or word from the text file, this will cause your program to look like just a version of the text file
+This python script will take a c++ file and a text file and #define all the tokens in the c++ file as a phrase or word from the text file, this will cause your program to look like just a version of the text file
 
 Usage: python main.py <c++ file> <text file> <name of output file you want>
 
@@ -273,3 +272,4 @@ out.cpp
 
 Known issues: Certain #defines in the original code file may cause errors
 When the original program file is included in other files or include other files that may contain #defines, it may also cause errors
+Will not work with typedef or unions
