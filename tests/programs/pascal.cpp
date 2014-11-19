@@ -1,4 +1,5 @@
 #include <iostream>
+#define n newVar
 using namespace std;
 
 int* pascal(int n);

@@ -6,11 +6,17 @@ class ProgramParse:
 		self.text = programText
 		self.variableTypes = { "int", "double", "float", "string", "uint8_t", "uint16_t", "uint32_t", "uint64_t", "int8_t", "int16_t", "int32_t", "int64_t", "char", "char16_t", "char32_t", "bool", "short", "wchar_t", "size_t", "void"}
 
-		# keeps track of user defined variables and types and #defines
+		# keeps track of user defined variables and types and 
+		# defines
 		self.definedSymbols = set()
 
-		self.macros = set()
-		self.defines = set()
+		self.tokens = []
+		
+		self.macros = []
+		
+		self.defines = []
+
+		self.tokenPos = 0
 
 	# the only external function you need to call
 	# will parse the program file
@@ -19,6 +25,50 @@ class ProgramParse:
 		self.__findAndRemoveMacros()
 		self.__preprocess()
 		self.__getVariableNames()
+		self.__getTokens()
+
+	def numWords(self):
+		return len(self.tokens)
+
+	def numWordsRemaining(self):
+		return len(self.tokens) - self.tokenPos
+
+	# n is the number of tokens to get
+	def getWords(self, n = 1):
+		if (self.tokenPos + n > len(self.tokens)):
+			raise Exception("Not Enough Words")
+
+		phrase = ""
+		for x in range(n):
+			phrase += self.tokens[self.tokenPos + x] + " "
+		self.tokenPos += n
+		return phrase
+
+	def __getTokens(self):
+		lastPos = 0
+		pos = self.text.find("\"")
+		posEnd = -1
+		while (pos != -1):
+			tempText = self.text[lastPos:pos]
+			words = tempText.split()
+			for word in words:
+				self.tokens.append(word)
+			
+			#find ending quote
+			posEnd = self.text.find("\"", pos + 1)
+			self.tokens.append(self.text[pos:posEnd + 1])
+			lastPos = posEnd + 1
+			pos = self.text.find("\"", posEnd + 1)
+
+		if (posEnd != -1):
+			tempText = self.text[posEnd + 1:]
+			words = tempText.split()
+			for word in words:
+				self.tokens.append(word)
+		else:
+			words = self.text.split()
+			for word in words:
+				self.tokens.append(word)
 
 	def __getVariableNames(self):
 		# classes and structs
@@ -31,12 +81,27 @@ class ProgramParse:
 		for variable in self.variableTypes ^ {"int"}:
 			variableRegex += variable + "|"
 		variableRegex += "int)"
-		variableRegex += " {0,}\*{0,1}&{0,2} {0,}(.+) {0,}"
-		# print(variableRegex)
+		variableRegex += " {0,}\*{0,1}&{0,2} +\*{0,1}&{0,2}(.+)"
 
 		variables = re.findall(variableRegex, self.text)
 		for variable in variables:
-			print(variable)
+			self.__parseVariables(variable)
+
+	def __parseVariables(self, variable):
+		name = variable[1]
+
+		for char in "=;({:":
+			pos = name.find(char)
+			if (pos >= 0):
+				name = name[:pos]
+		
+		# looking for multiple definitions
+		names = name.split(",");
+		for var in names:
+			var = var.strip()
+			if (var == ""):
+				continue # if there's nothing left, go on
+			self.definedSymbols.add(var)
 
 	def __findAndRemoveMacros(self):
 		self.__findAndRemovePattern("#include", "\n", self.macros)
@@ -64,7 +129,7 @@ class ProgramParse:
 			if (end == -1):
 				break
 			if (setToAdd != None):
-				setToAdd.add(self.text[start:end])
+				setToAdd.append(self.text[start:end + 1])
 			self.text = self.text[:start] + self.text[end + len(endText):]
 			start = self.text.find(startText)
 
