@@ -1,11 +1,11 @@
-	This python script will take a c++ file and a text file and 
-	#define all the tokens in the c++ file as a phrase or word from the text file, this will cause your program to look like just a version of the text file
+This python script will take a c++ file and a text file and 
+#define all the tokens in the c++ file as a phrase or word from the text file, this will cause your program to look like just a version of the text file
 
-	Usage: python main.py <c++ file> <text file> <name of output file you want>
+Usage: python main.py <c++ file> <text file> <name of output file you want>
 
-	Example:
+Example:
 
-	python main.py tests/programs/pascal.cpp tests/text/LifesForTheLiving.txt out.cpp
+python main.py tests/programs/pascal.cpp tests/text/LifesForTheLiving.txt out.cpp
 
 pascal.cpp:
 	#include <iostream>
