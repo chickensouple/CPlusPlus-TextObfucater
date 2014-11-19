@@ -7,6 +7,7 @@ Example:
 python main.py tests/programs/pascal.cpp tests/text/LifesForTheLiving.txt out.cpp
 
 pascal.cpp:
+
 	#include <iostream>
 	#define n newVar
 	using namespace std;
@@ -56,7 +57,9 @@ pascal.cpp:
 	}
 
 LifesForTheLiving.txt
+
 	"Life's For The Living"
+	by Passenger
 
 	Well grey clouds wrapped round the town like elastic
 	Cars stood like toys made of Taiwanese plastic
@@ -113,163 +116,166 @@ LifesForTheLiving.txt
 	Or you're better off dead
 
 out.cpp
+
 	#include <iostream>
 
 	using namespace std;
 	#define n newVar
 
 	#define _Life_s_For_The int* 
-	#define Living__Well_grey pascal(int 
-	#define clouds_wrapped_round n); 
-	#define the_town_like int 
-	#define elastic_Cars_stood main() 
-	#define like_toys_made { 
-	#define of_Taiwanese_plastic int 
-	#define The_boy_laughed n; 
-	#define at_the_spastic cout 
-	#define dancing_around_in << 
-	#define the_rain_While "Row of Pascal numbers: " 
-	#define laundrettes_cleaned_clothes_ ; 
-	#define high_heals_rub cin 
-	#define toes_Puddles_splashed >> 
-	#define huddles_of_bus n; 
-	#define stop_crows_Dressed int* 
-	#define in_their_suits line; 
-	#define and_their_boots line 
-	#define well_they_all = 
-	#define look_the_same pascal(n); 
-	#define I_took_myself for 
-	#define down_to_the (int 
-	#define cafe_to_find i 
-	#define all_the_boys = 
-	#define lost_in_books 0; 
-	#define and_crackling_vinyl i 
-	#define And_carved_out < 
-	#define a_poem_above (n+1); 
-	#define the_urinal_that i++) 
-	#define read_Don_t_you { 
-	#define cry_for_the cout 
-	#define lost_Smile_for << 
-	#define the_living_Get line[i] 
-	#define what_you_need << 
-	#define and_give_what "\t" 
-	#define you_re_given_Life_s ; 
-	#define for_the_living } 
-	#define so_live_it cout 
-	#define Or_you_re_better << 
-	#define off_dead_While "\n" 
-	#define the_evening_pulled ; 
-	#define the_moon_out delete 
-	#define of_it_s_packet [] 
-	#define Stars_shone_like line; 
-	#define buttons_on_an return 
-	#define old_man_s_jacket 0; 
-	#define We_needed_a } 
-	#define nail_but_we int* 
-	#define tacked_it__til pascal(int 
-	#define it_fell_of n) 
-	#define the_wall_While { 
-	#define pigeon_s_pecked_trains_ int* 
-	#define sparks_flew_like line; 
-	#define planes_The_rain int* 
-	#define showed_the_rainbows previousline; 
-	#define in_the_oil line 
-	#define stains_And_we = 
-	#define all_had_new new 
-	#define iPhones_but_no int[n+1]; 
-	#define one_had_no if 
-	#define one_to_call (n 
-	#define And_I_stumbled == 
-	#define down_to_the_ 0){ 
-	#define stomach_of_the line[0] 
-	#define town_Where_the = 
-	#define widow_takes_memories 1; 
-	#define to_slowly_drown return 
-	#define With_a_hand line; 
-	#define to_the_sky } 
-	#define and_a_mist else 
-	#define in_her_eye if 
-	#define she_said_Don_t (n 
-	#define you_cry_for == 
-	#define the_lost_Smile 1) 
-	#define for_the_living_ { 
-	#define Get_what_you line[0] 
-	#define need_and_give = 
-	#define what_you_re_given 1; 
-	#define Life_s_for_the line[1] 
-	#define living_so_live = 
-	#define it_Or_you_re 1; 
-	#define better_off_dead return 
-	#define Well_I_m_sick line; 
-	#define of_this_town_ } 
-	#define this_blind_man_s else 
-	#define forage_They_take { 
-	#define your_dreams_down previousline 
-	#define and_stick_them = 
-	#define in_storage_You pascal(n 
-	#define can_have_them - 
-	#define back_son_when 1); 
-	#define you_ve_paid_off for 
-	#define your_mortgage_and (int 
-	#define loans_Oh_hell i 
-	#define with_this_place_ = 
-	#define I_ll_go_it 1; 
-	#define my_own_way i 
-	#define I_ll_stick_out < 
-	#define my_thumb_and (n 
-	#define I_trudge_down + 
-	#define the_highway_Someday 1); 
-	#define someone_must_be i++){ 
-	#define going_my_way line[i] 
-	#define home_Till_then = 
-	#define I_ll_make_my previousline 
-	#define bed_from_a [i 
-	#define disused_car_With - 
-	#define a_mattress_of 1] 
-	#define leaves_and_a + 
-	#define blanket_of_stars previousline[i]; 
-	#define And_I_ll_stitch } 
-	#define the_words_into line[0] 
-	#define my_heart_with = 
-	#define a_needle_and 1; 
-	#define thread_Don_t_you line[n] 
-	#define cry_for_the_ = 
-	#define lost_Smile_for_ 1; 
-	#define the_living_Get_ delete 
-	#define what_you_need_ [] 
-	#define and_give_what_ previousline; 
-	#define you_re_given_You return 
-	#define know_life_s_for line; 
-	#define the_living_so } 
-	#define live_it_Or_you_re_better_off_dead_Don_t_you_cry_for_the_lost_Smile_for_the_living_Get_what_you_need_and_give_what_you_re_given_Life_s_for_the_living_so_live_it_Or_you_re_better_off_dead } 
+	#define Living__by_Passenger pascal(int 
+	#define Well_grey_clouds n); 
+	#define wrapped_round_the int 
+	#define town_like_elastic main() 
+	#define Cars_stood_like { 
+	#define toys_made_of int 
+	#define Taiwanese_plastic_The n; 
+	#define boy_laughed_at cout 
+	#define the_spastic_dancing << 
+	#define around_in_the "Row of Pascal numbers: " 
+	#define rain_While_laundrettes ; 
+	#define cleaned_clothes__high cin 
+	#define heals_rub_toes >> 
+	#define Puddles_splashed_huddles n; 
+	#define of_bus_stop int* 
+	#define crows_Dressed_in line; 
+	#define their_suits_and line 
+	#define their_boots_well = 
+	#define they_all_look pascal(n); 
+	#define the_same_I for 
+	#define took_myself_down (int 
+	#define to_the_cafe i 
+	#define to_find_all = 
+	#define the_boys_lost 0; 
+	#define in_books_and i 
+	#define crackling_vinyl_And < 
+	#define carved_out_a (n+1); 
+	#define poem_above_the i++) 
+	#define urinal_that_read { 
+	#define Don_t_you_cry cout 
+	#define for_the_lost << 
+	#define Smile_for_the line[i] 
+	#define living_Get_what << 
+	#define you_need_and "\t" 
+	#define give_what_you_re ; 
+	#define given_Life_s_for } 
+	#define the_living_so cout 
+	#define live_it_Or << 
+	#define you_re_better_off "\n" 
+	#define dead_While_the ; 
+	#define evening_pulled_the delete 
+	#define moon_out_of [] 
+	#define it_s_packet_Stars line; 
+	#define shone_like_buttons return 
+	#define on_an_old 0; 
+	#define man_s_jacket_We } 
+	#define needed_a_nail int* 
+	#define but_we_tacked pascal(int 
+	#define it__til_it n) 
+	#define fell_of_the { 
+	#define wall_While_pigeon_s int* 
+	#define pecked_trains__sparks line; 
+	#define flew_like_planes int* 
+	#define The_rain_showed previousline; 
+	#define the_rainbows_in line 
+	#define the_oil_stains = 
+	#define And_we_all new 
+	#define had_new_iPhones int[n+1]; 
+	#define but_no_one if 
+	#define had_no_one (n 
+	#define to_call_And == 
+	#define I_stumbled_down 0){ 
+	#define to_the_stomach line[0] 
+	#define of_the_town = 
+	#define Where_the_widow 1; 
+	#define takes_memories_to return 
+	#define slowly_drown_With line; 
+	#define a_hand_to } 
+	#define the_sky_and else 
+	#define a_mist_in if 
+	#define her_eye_she (n 
+	#define said_Don_t_you == 
+	#define cry_for_the 1) 
+	#define lost_Smile_for { 
+	#define the_living_Get line[0] 
+	#define what_you_need = 
+	#define and_give_what 1; 
+	#define you_re_given_Life_s line[1] 
+	#define for_the_living = 
+	#define so_live_it 1; 
+	#define Or_you_re_better return 
+	#define off_dead_Well line; 
+	#define I_m_sick_of } 
+	#define this_town__this else 
+	#define blind_man_s_forage { 
+	#define They_take_your previousline 
+	#define dreams_down_and = 
+	#define stick_them_in pascal(n 
+	#define storage_You_can - 
+	#define have_them_back 1); 
+	#define son_when_you_ve for 
+	#define paid_off_your (int 
+	#define mortgage_and_loans i 
+	#define Oh_hell_with = 
+	#define this_place__I_ll 1; 
+	#define go_it_my i 
+	#define own_way_I_ll < 
+	#define stick_out_my (n 
+	#define thumb_and_I + 
+	#define trudge_down_the 1); 
+	#define highway_Someday_someone i++){ 
+	#define must_be_going line[i] 
+	#define my_way_home = 
+	#define Till_then_I_ll previousline 
+	#define make_my_bed [i 
+	#define from_a_disused - 
+	#define car_With_a 1] 
+	#define mattress_of_leaves + 
+	#define and_a_blanket previousline[i]; 
+	#define of_stars_And } 
+	#define I_ll_stitch_the line[0] 
+	#define words_into_my = 
+	#define heart_with_a 1; 
+	#define needle_and_thread line[n] 
+	#define Don_t_you_cry_ = 
+	#define for_the_lost_ 1; 
+	#define Smile_for_the_ delete 
+	#define living_Get_what_ [] 
+	#define you_need_and_ previousline; 
+	#define give_what_you_re_ return 
+	#define given_You_know line; 
+	#define life_s_for_the } 
+	#define living_so_live_it_Or_you_re_better_off_dead_Don_t_you_cry_for_the_lost_Smile_for_the_living_Get_what_you_need_and_give_what_you_re_given_Life_s_for_the_living_so_live_it_Or_you_re_better_off_dead } 
 
-	_Life_s_For_The Living__Well_grey clouds_wrapped_round the_town_like elastic_Cars_stood 
-	like_toys_made of_Taiwanese_plastic The_boy_laughed at_the_spastic dancing_around_in 
-	the_rain_While laundrettes_cleaned_clothes_ high_heals_rub toes_Puddles_splashed huddles_of_bus 
-	stop_crows_Dressed in_their_suits and_their_boots well_they_all look_the_same 
-	I_took_myself down_to_the cafe_to_find all_the_boys lost_in_books 
-	and_crackling_vinyl And_carved_out a_poem_above the_urinal_that read_Don_t_you 
-	cry_for_the lost_Smile_for the_living_Get what_you_need and_give_what 
-	you_re_given_Life_s for_the_living so_live_it Or_you_re_better off_dead_While 
-	the_evening_pulled the_moon_out of_it_s_packet Stars_shone_like buttons_on_an 
-	old_man_s_jacket We_needed_a nail_but_we tacked_it__til it_fell_of 
-	the_wall_While pigeon_s_pecked_trains_ sparks_flew_like planes_The_rain showed_the_rainbows 
-	in_the_oil stains_And_we all_had_new iPhones_but_no one_had_no 
-	one_to_call And_I_stumbled down_to_the_ stomach_of_the town_Where_the 
-	widow_takes_memories to_slowly_drown With_a_hand to_the_sky and_a_mist 
-	in_her_eye she_said_Don_t you_cry_for the_lost_Smile for_the_living_ 
-	Get_what_you need_and_give what_you_re_given Life_s_for_the living_so_live 
-	it_Or_you_re better_off_dead Well_I_m_sick of_this_town_ this_blind_man_s 
-	forage_They_take your_dreams_down and_stick_them in_storage_You can_have_them 
-	back_son_when you_ve_paid_off your_mortgage_and loans_Oh_hell with_this_place_ 
-	I_ll_go_it my_own_way I_ll_stick_out my_thumb_and I_trudge_down 
-	the_highway_Someday someone_must_be going_my_way home_Till_then I_ll_make_my 
-	bed_from_a disused_car_With a_mattress_of leaves_and_a blanket_of_stars 
-	And_I_ll_stitch the_words_into my_heart_with a_needle_and thread_Don_t_you 
-	cry_for_the_ lost_Smile_for_ the_living_Get_ what_you_need_ and_give_what_ 
-	you_re_given_You know_life_s_for the_living_so live_it_Or_you_re_better_off_dead_Don_t_you_cry_for_the_lost_Smile_for_the_living_Get_what_you_need_and_give_what_you_re_given_Life_s_for_the_living_so_live_it_Or_you_re_better_off_dead 
+	_Life_s_For_The Living__by_Passenger Well_grey_clouds wrapped_round_the town_like_elastic 
+	Cars_stood_like toys_made_of Taiwanese_plastic_The boy_laughed_at the_spastic_dancing 
+	around_in_the rain_While_laundrettes cleaned_clothes__high heals_rub_toes Puddles_splashed_huddles 
+	of_bus_stop crows_Dressed_in their_suits_and their_boots_well they_all_look 
+	the_same_I took_myself_down to_the_cafe to_find_all the_boys_lost 
+	in_books_and crackling_vinyl_And carved_out_a poem_above_the urinal_that_read 
+	Don_t_you_cry for_the_lost Smile_for_the living_Get_what you_need_and 
+	give_what_you_re given_Life_s_for the_living_so live_it_Or you_re_better_off 
+	dead_While_the evening_pulled_the moon_out_of it_s_packet_Stars shone_like_buttons 
+	on_an_old man_s_jacket_We needed_a_nail but_we_tacked it__til_it 
+	fell_of_the wall_While_pigeon_s pecked_trains__sparks flew_like_planes The_rain_showed 
+	the_rainbows_in the_oil_stains And_we_all had_new_iPhones but_no_one 
+	had_no_one to_call_And I_stumbled_down to_the_stomach of_the_town 
+	Where_the_widow takes_memories_to slowly_drown_With a_hand_to the_sky_and 
+	a_mist_in her_eye_she said_Don_t_you cry_for_the lost_Smile_for 
+	the_living_Get what_you_need and_give_what you_re_given_Life_s for_the_living 
+	so_live_it Or_you_re_better off_dead_Well I_m_sick_of this_town__this 
+	blind_man_s_forage They_take_your dreams_down_and stick_them_in storage_You_can 
+	have_them_back son_when_you_ve paid_off_your mortgage_and_loans Oh_hell_with 
+	this_place__I_ll go_it_my own_way_I_ll stick_out_my thumb_and_I 
+	trudge_down_the highway_Someday_someone must_be_going my_way_home Till_then_I_ll 
+	make_my_bed from_a_disused car_With_a mattress_of_leaves and_a_blanket 
+	of_stars_And I_ll_stitch_the words_into_my heart_with_a needle_and_thread 
+	Don_t_you_cry_ for_the_lost_ Smile_for_the_ living_Get_what_ you_need_and_ 
+	give_what_you_re_ given_You_know life_s_for_the living_so_live_it_Or_you_re_better_off_dead_Don_t_you_cry_for_the_lost_Smile_for_the_living_Get_what_you_need_and_give_what_you_re_given_Life_s_for_the_living_so_live_it_Or_you_re_better_off_dead 
 
 
 Known issues: Certain #defines in the original code file may cause errors
 When the original program file is included in other files or include other files that may contain #defines, it may also cause errors
 Will not work with typedef or unions
+
+Tested with Python 2.7.6 and Python 3.4.0
