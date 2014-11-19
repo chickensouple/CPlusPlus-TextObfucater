@@ -34,7 +34,7 @@ class ProgramParse:
 		return len(self.tokens) - self.tokenPos
 
 	# n is the number of tokens to get
-	def getWords(self, n = 1):
+	def getWords(self, n):
 		if (self.tokenPos + n > len(self.tokens)):
 			raise Exception("Not Enough Words")
 

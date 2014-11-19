@@ -23,7 +23,7 @@ class TextParse:
 			self.wordsList.append("".join(word))
 
 	# n is the number of words to get
-	def getWords(self, n = 1):
+	def getWords(self, n, typeNames, variableNames):
 		if (self.wordsListPos + n > len(self.wordsList)):
 			raise Exception("Not Enough Words")
 
@@ -33,6 +33,12 @@ class TextParse:
 		phrase += self.wordsList[self.wordsListPos + n - 1]
 		
 		while (phrase in self.usedSet):
+			phrase += "_"
+
+		while (phrase in typeNames):
+			phrase += "_"
+
+		while (phrase in variableNames):
 			phrase += "_"
 
 		self.usedSet.add(phrase)

@@ -44,7 +44,7 @@ for define in programParser.defines:
 newProgram = [] # list to hold all the new defines
 for x in range(numWords - 1):
 	programWords = programParser.getWords(pNum)
-	textWords = textParser.getWords(tNum)
+	textWords = textParser.getWords(tNum, programParser.variableTypes, programParser.definedSymbols)
 	while (textWords in programParser.variableTypes):
 		textWords += "_"
 
@@ -53,7 +53,7 @@ for x in range(numWords - 1):
 	outFile.write("#define " + textWords + " " + programWords + "\n")
 
 programWords = programParser.getWords(programParser.numWordsRemaining())
-textWords = textParser.getWords(textParser.numWordsRemaining())
+textWords = textParser.getWords(textParser.numWordsRemaining(), programParser.variableTypes, programParser.definedSymbols)
 while (textWords in programParser.variableTypes):
 		textWords += "_"
 outFile.write("#define " + textWords + " " + programWords + "\n\n")
