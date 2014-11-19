@@ -18,8 +18,7 @@ class ProgramParse:
 
 		self.tokenPos = 0
 
-	# the only external function you need to call
-	# will parse the program file
+	# will parse the program file to remove comments, save macros, get variable names and tokenize it
 	def parse(self):
 		self.__removeComments()
 		self.__findAndRemoveMacros()
@@ -27,13 +26,15 @@ class ProgramParse:
 		self.__getVariableNames()
 		self.__getTokens()
 
+	# gets the total number of tokens in file
 	def numWords(self):
 		return len(self.tokens)
 
+	# get the number of tokens left
 	def numWordsRemaining(self):
 		return len(self.tokens) - self.tokenPos
 
-	# n is the number of tokens to get
+	# gets the next n tokens from the program
 	def getWords(self, n):
 		if (self.tokenPos + n > len(self.tokens)):
 			raise Exception("Not Enough Words")
@@ -41,10 +42,15 @@ class ProgramParse:
 		phrase = ""
 		for x in range(n):
 			phrase += self.tokens[self.tokenPos + x] + " "
+
+		# advances token position
 		self.tokenPos += n
 		return phrase
 
+	# separates the processed files (stripped of comments and macros)
+	# into tokens
 	def __getTokens(self):
+		# we can't split up strings across multiple defines, so each string however big must be one token
 		lastPos = 0
 		pos = self.text.find("\"")
 		posEnd = -1
@@ -70,13 +76,15 @@ class ProgramParse:
 			for word in words:
 				self.tokens.append(word)
 
+	# gets the names of variables and types defined in the program
 	def __getVariableNames(self):
-		# classes and structs
+		# finds defined classes and structs
 		definedTypes = re.findall(ProgramParse.classStructRegex, self.text)
 		for type_t in definedTypes:
 			self.variableTypes.add(type_t)
 			self.definedSymbols.add(type_t)
 
+		# finds defined variables
 		variableRegex = "(";
 		for variable in self.variableTypes ^ {"int"}:
 			variableRegex += variable + "|"
@@ -87,6 +95,7 @@ class ProgramParse:
 		for variable in variables:
 			self.__parseVariables(variable)
 
+	# processes a variable string given by the variable Regex in __getVariableNames
 	def __parseVariables(self, variable):
 		name = variable[1]
 
@@ -103,11 +112,13 @@ class ProgramParse:
 				continue # if there's nothing left, go on
 			self.definedSymbols.add(var)
 
+	# removes all macros and saves them
 	def __findAndRemoveMacros(self):
 		self.__findAndRemovePattern("#include", "\n", self.macros)
 		self.__findAndRemovePattern("using namespace", ";", self.macros)
 		self.__findAndRemovePattern("#define", "\n", self.defines)
 
+	# removes block and line comments
 	def __removeComments(self):
 		self.__findAndRemovePattern("/*", "*/")
 		self.__findAndRemovePattern("//", "\n")
@@ -117,6 +128,7 @@ class ProgramParse:
 		# making sure there is a new line after every semicolon
 		self.text = self.text.replace(";", ";\n")
 
+	# regex to find classes and structs
 	classStructRegex = "(?:class|struct) {0,}([a-zA-Z0-9_-]+)"
 
 	# finds and removes all instances of a pattern 

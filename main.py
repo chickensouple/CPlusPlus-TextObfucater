@@ -19,43 +19,48 @@ textParser = TextParse(textFile.read())
 textParser.parse()
 textFile.close()
 
+# gets number of words from each file
 programNumWords = programParser.numWords()
 textNumWords = textParser.numWords()
 
+# if there are more program words than text words, we will
+# assign pNum(number of program words per define) to be as close as possible such that textNumWords * pNum = programNumWords
+# assign tNum (number of text words per define)
+# assign numDefines to be the number of textwords
+# if more text words than program words, we will do the opposite for pNum, tNum and numDefines
 if (programNumWords > textNumWords):
 	pNum = int(programNumWords / textNumWords)
 	tNum = 1
-	numWords = textNumWords
+	numDefines = textNumWords
 else:
 	pNum = 1
 	tNum = int(textNumWords / programNumWords)
-	numWords = programNumWords
+	numDefines = programNumWords
 
+# opens up the output file
 outFile = open(sys.argv[3], 'w')
-
 
 # print macros
 for macro in programParser.macros:
 	outFile.write(str(macro) + "\n")
 
+# print defines
 for define in programParser.defines:
 	outFile.write(str(define) + "\n")
 
 newProgram = [] # list to hold all the new defines
-for x in range(numWords - 1):
+for x in range(numDefines - 1):
+	# gets the program words
 	programWords = programParser.getWords(pNum)
+	# gets the text words
 	textWords = textParser.getWords(tNum, programParser.variableTypes, programParser.definedSymbols)
-	while (textWords in programParser.variableTypes):
-		textWords += "_"
-
-	textParser.usedSet.add(textWords)
+	# add define to newProgram and write it to file
 	newProgram.append(textWords)
 	outFile.write("#define " + textWords + " " + programWords + "\n")
 
+# getting the remaining words for each for the last define
 programWords = programParser.getWords(programParser.numWordsRemaining())
 textWords = textParser.getWords(textParser.numWordsRemaining(), programParser.variableTypes, programParser.definedSymbols)
-while (textWords in programParser.variableTypes):
-		textWords += "_"
 outFile.write("#define " + textWords + " " + programWords + "\n\n")
 newProgram.append(textWords)
 

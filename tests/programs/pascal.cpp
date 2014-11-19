@@ -4,8 +4,7 @@ using namespace std;
 
 int* pascal(int n);
 
-int main()
-{
+int main() {
 	int n;
 	cout << "Row of Pascal numbers: ";
 	cin >> n; /* 
@@ -13,7 +12,7 @@ int main()
 	comment that spans
 	several lines */int* line;
 	line = pascal(n);
-	for (int i = 0; i < (n+1); i++){
+	for (int i = 0; i < (n+1); i++) {
 		cout << line[i] << "\t";
 	}
 	cout << "\n";
@@ -21,7 +20,7 @@ int main()
 	return 0;
 } 
 
-int* pascal(int n){
+int* pascal(int n) {
 	// int pointer to dynamically allocate arrays
 	// for the last line of pascals and the current line
 	int* line;
@@ -31,11 +30,11 @@ int* pascal(int n){
 		// shouldn't here get here unless called with 0
 		line[0] = 1;
 		return line;
-	} else if (n == 1){
+	} else if (n == 1) {
 		line[0] = 1;
 		line[1] = 1;
 		return line;
-	} else{
+	} else {
 		previousline = pascal(n - 1);
 		for (int i = 1; i < (n + 1); i++){
 			line[i] = previousline [i - 1] + previousline[i];
